@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<style>
+    :root {
+        --fc-primary: #0078d4;
+        --fc-primary-dark: #005a9e;
+        --fc-bg: #f4f8fb;
+        --fc-text: #1f2937;
+        --fc-muted: #6b7280;
+        --fc-danger: #dc3545;
+    }
+
+    body {
+        background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+    }
+
+    .patient-dashboard {
+        padding: 3rem 0;
+    }
+
+    .dashboard-shell {
+        background: rgba(255,255,255,0.82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 28px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
+
+    .dashboard-hero {
+        background: linear-gradient(135deg, #0078d4 0%, #2563eb 100%);
+        color: white;
+        padding: 2.5rem;
+        position: relative;
+    }
+
+        .dashboard-hero::after {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 180px;
+            height: 180px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 50%;
+        }
+
+        .dashboard-hero::before {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -30px;
+            width: 140px;
+            height: 140px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+    .hero-subtext {
+        color: rgba(255,255,255,0.88);
+    }
+
+    .dashboard-body {
+        padding: 2rem;
+    }
+
+    .quick-card {
+        border: none;
+        border-radius: 22px;
+        padding: 1.5rem;
+        height: 100%;
+        background: linear-gradient(145deg, #ffffff, #f7fbff);
+        box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+        transition: all 0.28s ease;
+    }
+
+        .quick-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 36px rgba(15,23,42,0.12);
+        }
+
+    .quick-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: white;
+        margin-bottom: 1rem;
+        box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+    }
+
+    .icon-blue {
+        background: linear-gradient(135deg, #0078d4, #005a9e);
+    }
+
+    .icon-light {
+        background: linear-gradient(135deg, #4f9cf9, #2563eb);
+    }
+
+    .icon-red {
+        background: linear-gradient(135deg, #dc3545, #b02a37);
+    }
+
+    .quick-title {
+        font-weight: 700;
+        color: var(--fc-text);
+        margin-bottom: .5rem;
+    }
+
+    .quick-text {
+        color: var(--fc-muted);
+        margin-bottom: 1.25rem;
+    }
+
+    .btn-azure {
+        background: linear-gradient(135deg, var(--fc-primary), var(--fc-primary-dark));
+        border: none;
+        color: white;
+        border-radius: 14px;
+        padding: 0.85rem 1.4rem;
+        font-weight: 600;
+        box-shadow: 0 10px 22px rgba(0,120,212,0.22);
+        transition: all 0.25s ease;
+    }
+
+        .btn-azure:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(0,120,212,0.28);
+        }
+
+    .btn-azure-outline {
+        border: 2px solid rgba(0,120,212,0.2);
+        color: var(--fc-primary);
+        background: white;
+        border-radius: 14px;
+        padding: 0.85rem 1.4rem;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+        .btn-azure-outline:hover {
+            background: rgba(0,120,212,0.08);
+            color: var(--fc-primary-dark);
+            transform: translateY(-2px);
+        }
+
+    .btn-danger-soft {
+        border: 2px solid rgba(220,53,69,0.18);
+        color: var(--fc-danger);
+        background: white;
+        border-radius: 14px;
+        padding: 0.85rem 1.4rem;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+        .btn-danger-soft:hover {
+            background: rgba(220,53,69,0.08);
+            color: #b02a37;
+            transform: translateY(-2px);
+        }
+
+    .welcome-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        padding: 0.45rem 0.9rem;
+        border-radius: 999px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<div class="container patient-dashboard">
+    <div class="row">
+        <div class="col-xl-10 col-lg-11 mx-auto">
+            <div class="dashboard-shell">
+
+                <div class="dashboard-hero">
+                    <span class="welcome-badge">Patient Portal</span>
+                    <h2 class="fw-bold mb-2">Welcome to FreyaCare</h2>
+                    <p class="lead hero-subtext mb-0">
+                        You are logged in successfully. Manage your consultations and appointments from one place.
+                    </p>
+                </div>
+
+                <div class="dashboard-body">
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+                            <div class="quick-card">
+                                <div class="quick-icon icon-blue">
+                                    📅
+                                </div>
+                                <h4 class="quick-title">Book Consultation</h4>
+                                <p class="quick-text">
+                                    Schedule an online consultation quickly and easily with your doctor.
+                                </p>
+                                <a asp-controller="Appointment" asp-action="Book" class="btn btn-azure w-100">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="quick-card">
+                                <div class="quick-icon icon-light">
+                                    🩺
+                                </div>
+                                <h4 class="quick-title">My Appointments</h4>
+                                <p class="quick-text">
+                                    View your appointment history, upcoming sessions, and consultation details.
+                                </p>
+                                <a asp-controller="Appointment" asp-action="MyAppointments" class="btn btn-azure-outline w-100">
+                                    View Appointments
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="quick-card">
+                                <div class="quick-icon icon-red">
+                                    🔒
+                                </div>
+                                <h4 class="quick-title">Logout</h4>
+                                <p class="quick-text">
+                                    Securely sign out from your patient account when you are finished.
+                                </p>
+                                <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger-soft w-100">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

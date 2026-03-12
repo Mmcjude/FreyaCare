@@ -1,0 +1,35 @@
+﻿@model IEnumerable<FreyaCare.Models.DoctorAvailability>
+
+@{
+    ViewData["Title"] = "My Availability";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="mb-4">My Availability</h2>
+
+            <a asp-action="Create" class="btn btn-primary mb-3">Add New Slot</a>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Start</th>
+                        <th>End</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AvailableDate.ToShortDateString()</td>
+                            <td>@item.StartTime</td>
+                            <td>@item.EndTime</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

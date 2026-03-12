@@ -1,0 +1,55 @@
+﻿@model FreyaCare.Models.User
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h2 class="mb-4">Edit User</h2>
+
+                    <form asp-action="EditUser" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control form-control-lg" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PersonalCode" class="form-label"></label>
+                            <input asp-for="PersonalCode" class="form-control form-control-lg" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control form-control-lg" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control form-control-lg" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Role" class="form-label"></label>
+                            <select asp-for="Role" class="form-select form-select-lg">
+                                <option value="Patient">Patient</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                        <a asp-action="Users" class="btn btn-outline-secondary btn-lg ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

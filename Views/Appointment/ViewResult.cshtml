@@ -1,0 +1,35 @@
+﻿@model FreyaCare.Models.Appointment
+
+@{
+    ViewData["Title"] = "Consultation Result";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="mb-4">Consultation Result</h2>
+
+            <p><strong>Doctor:</strong> @Model.Doctor?.FullName</p>
+            <p><strong>Appointment Date:</strong> @Model.AppointmentDate</p>
+
+            @if (Model.ConsultationNotes != null && Model.ConsultationNotes.Any())
+            {
+                var note = Model.ConsultationNotes.First();
+
+                <hr />
+                <p><strong>Symptoms:</strong> @note.Symptoms</p>
+                <p><strong>Diagnosis:</strong> @note.Diagnosis</p>
+                <p><strong>Doctor Notes:</strong> @note.DoctorNotes</p>
+                <p><strong>Prescription:</strong> @note.Prescription</p>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    No consultation result has been added yet.
+                </div>
+            }
+
+            <a asp-action="MyAppointments" class="btn btn-primary mt-3">Back to My Appointments</a>
+        </div>
+    </div>
+</div>

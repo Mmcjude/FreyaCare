@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FreyaCare.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Doctor Appointments";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="mb-4">Appointments</h2>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Meeting</th>
+                        <th>Consultation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Patient?.FullName</td>
+                            <td>@item.AppointmentDate</td>
+                            <td>@item.Status</td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(item.MeetingLink))
+                                {
+                                    <a href="@item.MeetingLink" target="_blank" class="btn btn-success btn-sm">Join</a>
+                                }
+                            </td>
+                            <td>
+                                <a asp-controller="Consultation"
+                                   asp-action="Create"
+                                   asp-route-appointmentId="@item.Id"
+                                   class="btn btn-warning btn-sm">
+                                    Add Consultation
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

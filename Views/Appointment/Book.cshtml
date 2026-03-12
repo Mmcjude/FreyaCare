@@ -1,0 +1,37 @@
+﻿@model FreyaCare.ViewModels.BookAppointmentViewModel
+
+@{
+    ViewData["Title"] = "Book Consultation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="mb-4">Book Consultation</h2>
+
+                    <form asp-action="Book" method="post">
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="DoctorId" class="form-label"></label>
+                            <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select form-select-lg">
+                                <option value="">Select Doctor</option>
+                            </select>
+                            <span asp-validation-for="DoctorId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AppointmentDate" class="form-label"></label>
+                            <input asp-for="AppointmentDate" class="form-control form-control-lg" />
+                            <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Book Consultation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

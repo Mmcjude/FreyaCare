@@ -1,0 +1,385 @@
+﻿@{
+    ViewData["Title"] = "FreyaCare";
+}
+
+<style>
+    :root {
+        --fc-primary: #0078d4;
+        --fc-primary-dark: #005a9e;
+        --fc-bg: #f4f8fb;
+        --fc-text: #1f2937;
+        --fc-muted: #6b7280;
+        --fc-border: rgba(255,255,255,0.18);
+    }
+
+    body {
+        background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+    }
+
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+        padding: 5rem 0;
+    }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -100px;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(0,120,212,0.18) 0%, rgba(0,120,212,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: -140px;
+            left: -120px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+    .hero-content,
+    .hero-visual,
+    .section-card,
+    .info-card {
+        position: relative;
+        z-index: 1;
+    }
+
+    .min-vh-75 {
+        min-height: 75vh;
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.15;
+        color: var(--fc-text);
+    }
+
+    .hero-subtitle,
+    .section-text {
+        color: var(--fc-muted);
+    }
+
+    .azure-badge {
+        background: rgba(0,120,212,0.10);
+        color: var(--fc-primary);
+        border: 1px solid rgba(0,120,212,0.12);
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
+
+    .hero-image,
+    .section-image {
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .hero-image:hover,
+        .section-image:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 55px rgba(15, 23, 42, 0.16);
+        }
+
+    .glass-panel {
+        background: rgba(255,255,255,0.72);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--fc-border);
+        border-radius: 28px;
+        box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+    }
+
+    .feature-list li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: start;
+        gap: 12px;
+    }
+
+    .feature-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0078d4, #2563eb);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 8px 18px rgba(0,120,212,0.22);
+    }
+
+    .section-soft {
+        background: linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(240,247,255,0.95) 100%);
+    }
+
+    .section-white {
+        background: rgba(255,255,255,0.88);
+    }
+
+    .how-card {
+        border: 0;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.92);
+        box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+        transition: all 0.28s ease;
+    }
+
+        .how-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 22px 40px rgba(15,23,42,0.12);
+        }
+
+    .step-number {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(135deg, #0078d4, #005a9e);
+        box-shadow: 0 10px 20px rgba(0,120,212,0.24);
+    }
+
+    .info-card {
+        border-radius: 26px;
+        padding: 2rem;
+        background: linear-gradient(145deg, rgba(255,255,255,0.88), rgba(246,250,255,0.96));
+        border: 1px solid rgba(226,232,240,0.9);
+        box-shadow: 0 14px 35px rgba(15,23,42,0.08);
+    }
+
+    .btn-azure {
+        background: linear-gradient(135deg, var(--fc-primary), var(--fc-primary-dark));
+        border: none;
+        color: white;
+        border-radius: 14px;
+        padding: 0.9rem 1.6rem;
+        font-weight: 600;
+        box-shadow: 0 10px 24px rgba(0,120,212,0.24);
+        transition: all 0.25s ease;
+    }
+
+        .btn-azure:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(0,120,212,0.3);
+        }
+
+    .btn-azure-outline {
+        border: 2px solid rgba(0,120,212,0.22);
+        color: var(--fc-primary);
+        background: rgba(255,255,255,0.72);
+        border-radius: 14px;
+        padding: 0.9rem 1.6rem;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+        .btn-azure-outline:hover {
+            background: rgba(0,120,212,0.08);
+            color: var(--fc-primary-dark);
+            transform: translateY(-2px);
+        }
+
+    .section-heading {
+        color: var(--fc-text);
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+    }
+
+    .highlight-text {
+        background: linear-gradient(135deg, #0078d4, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    @@media (max-width: 991.98px) {
+        .hero-section {
+            padding: 3rem 0;
+        }
+    }
+</style>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="glass-panel p-4 p-lg-5">
+            <div class="row align-items-center min-vh-75">
+                <div class="col-lg-6 mb-4 mb-lg-0 hero-content">
+                    <span class="badge azure-badge fs-6 px-3 py-2 rounded-pill mb-3">
+                        Telemedicine for Senior Citizens in Ventspils
+                    </span>
+
+                    <h1 class="hero-title fw-bold mb-3">
+                        Simple online healthcare with <span class="highlight-text">FreyaCare</span>
+                    </h1>
+
+                    <p class="lead hero-subtitle mb-4">
+                        Book consultations, meet doctors online, and view prescriptions and medical notes
+                        from the comfort of your home.
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <a asp-controller="Auth" asp-action="Register" class="btn btn-azure btn-lg">
+                            Get Started
+                        </a>
+                        <a asp-controller="Auth" asp-action="Login" class="btn btn-azure-outline btn-lg">
+                            Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-center hero-visual">
+                    <img src="~/images/hero_doctor.png"
+                         alt="Doctor online consultation"
+                         class="img-fluid hero-image" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 section-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <img src="~/images/senior_woman.jpg"
+                     alt="Senior woman using FreyaCare"
+                     class="img-fluid section-image" />
+            </div>
+
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <h2 class="fw-bold section-heading mb-3">Healthcare made easier for seniors</h2>
+                    <p class="section-text fs-5 mb-4">
+                        FreyaCare is designed with large buttons, clear forms, and simple navigation
+                        so elderly users can access care with confidence.
+                    </p>
+
+                    <ul class="list-unstyled fs-5 section-text feature-list mb-0">
+                        <li>
+                            <span class="feature-icon">✓</span>
+                            <span>Easy registration with personal code</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">✓</span>
+                            <span>Simple appointment booking</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">✓</span>
+                            <span>Clear consultation results and prescriptions</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 section-soft">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold section-heading">How FreyaCare Works</h2>
+            <p class="section-text fs-5">A simple care journey for patients and doctors.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-xl-3">
+                <div class="card how-card h-100 text-center p-4">
+                    <div class="step-number mb-3">1</div>
+                    <h5 class="fw-semibold">Register</h5>
+                    <p class="text-muted mb-0">Create an account using your personal code and password.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card how-card h-100 text-center p-4">
+                    <div class="step-number mb-3">2</div>
+                    <h5 class="fw-semibold">Book</h5>
+                    <p class="text-muted mb-0">Choose a doctor and book a consultation time.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card how-card h-100 text-center p-4">
+                    <div class="step-number mb-3">3</div>
+                    <h5 class="fw-semibold">Consult</h5>
+                    <p class="text-muted mb-0">Join your online consultation from home.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card how-card h-100 text-center p-4">
+                    <div class="step-number mb-3">4</div>
+                    <h5 class="fw-semibold">Results</h5>
+                    <p class="text-muted mb-0">Read doctor notes, diagnosis, and prescriptions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 section-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <img src="~/images/doctor_medicine.png"
+                     alt="Doctor with medicine consultation"
+                     class="img-fluid section-image" />
+            </div>
+
+            <div class="col-lg-6 order-lg-1">
+                <div class="info-card">
+                    <h2 class="fw-bold section-heading mb-3">Consult, receive advice, and follow up</h2>
+                    <p class="section-text fs-5 mb-4">
+                        Doctors can review appointments, approve consultations, and provide notes,
+                        prescriptions, and follow-up guidance through the FreyaCare platform.
+                    </p>
+                    <a asp-controller="Auth" asp-action="Login" class="btn btn-azure btn-lg">
+                        Access Your Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 section-soft">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <img src="~/images/senior_man.jpg"
+                     alt="Senior man using telemedicine"
+                     class="img-fluid section-image" />
+            </div>
+
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <h2 class="fw-bold section-heading mb-3">Care from home, comfort for patients</h2>
+                    <p class="section-text fs-5 mb-4">
+                        FreyaCare reduces the need for difficult travel and makes healthcare access
+                        easier for elderly citizens who prefer simple and familiar digital tools.
+                    </p>
+                    <a asp-controller="Auth" asp-action="Register" class="btn btn-azure-outline btn-lg">
+                        Create an Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

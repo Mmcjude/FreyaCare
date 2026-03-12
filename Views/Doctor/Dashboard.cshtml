@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg,#0078d4,#2563eb);
+        color: white;
+        padding: 35px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+        border: none;
+        border-radius: 20px;
+        padding: 25px;
+        transition: all .25s ease;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+        }
+
+    .dashboard-icon {
+        font-size: 34px;
+        margin-bottom: 15px;
+    }
+
+    .icon-blue {
+        color: #0d6efd;
+    }
+
+    .icon-purple {
+        color: #6f42c1;
+    }
+
+    .icon-green {
+        color: #198754;
+    }
+
+    .icon-red {
+        color: #dc3545;
+    }
+
+    .dashboard-btn {
+        border-radius: 12px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="dashboard-header">
+        <h2 class="fw-bold mb-1">
+            <i class="bi bi-heart-pulse-fill me-2"></i>
+            Doctor Dashboard
+        </h2>
+        <p class="lead mb-0">
+            Welcome doctor. Manage your availability and consultations here.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Add Availability -->
+        <div class="col-md-6 col-lg-3">
+            <div class="dashboard-card text-center">
+                <div class="dashboard-icon icon-blue">
+                    <i class="bi bi-calendar-plus"></i>
+                </div>
+                <h5>Add Availability</h5>
+                <p class="text-muted small">
+                    Set the times you are available for patient consultations.
+                </p>
+                <a asp-controller="DoctorAvailability"
+                   asp-action="Create"
+                   class="btn btn-primary dashboard-btn w-100">
+                    Add Availability
+                </a>
+            </div>
+        </div>
+
+        <!-- My Availability -->
+        <div class="col-md-6 col-lg-3">
+            <div class="dashboard-card text-center">
+                <div class="dashboard-icon icon-purple">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+                <h5>My Availability</h5>
+                <p class="text-muted small">
+                    View and manage your scheduled availability slots.
+                </p>
+                <a asp-controller="DoctorAvailability"
+                   asp-action="MyAvailability"
+                   class="btn btn-outline-primary dashboard-btn w-100">
+                    View Availability
+                </a>
+            </div>
+        </div>
+
+        <!-- My Appointments -->
+        <div class="col-md-6 col-lg-3">
+            <div class="dashboard-card text-center">
+                <div class="dashboard-icon icon-green">
+                    <i class="bi bi-clipboard2-pulse"></i>
+                </div>
+                <h5>My Appointments</h5>
+                <p class="text-muted small">
+                    Check your booked consultations with patients.
+                </p>
+                <a asp-controller="Doctor"
+                   asp-action="Appointments"
+                   class="btn btn-outline-success dashboard-btn w-100">
+                    View Appointments
+                </a>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="col-md-6 col-lg-3">
+            <div class="dashboard-card text-center">
+                <div class="dashboard-icon icon-red">
+                    <i class="bi bi-box-arrow-right"></i>
+                </div>
+                <h5>Logout</h5>
+                <p class="text-muted small">
+                    Securely sign out from your doctor account.
+                </p>
+                <a asp-controller="Auth"
+                   asp-action="Logout"
+                   class="btn btn-outline-danger dashboard-btn w-100">
+                    Logout
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,45 @@
+﻿@model FreyaCare.ViewModels.ConsultationNoteViewModel
+
+@{
+    ViewData["Title"] = "Consultation Notes";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <h2 class="mb-4">Consultation Result</h2>
+
+            <form asp-action="Create" method="post">
+
+                <input type="hidden" asp-for="AppointmentId" />
+
+                <div class="mb-3">
+                    <label asp-for="Symptoms" class="form-label"></label>
+                    <textarea asp-for="Symptoms" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Diagnosis" class="form-label"></label>
+                    <textarea asp-for="Diagnosis" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DoctorNotes" class="form-label"></label>
+                    <textarea asp-for="DoctorNotes" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Prescription" class="form-label"></label>
+                    <textarea asp-for="Prescription" class="form-control"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Save Consultation
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>

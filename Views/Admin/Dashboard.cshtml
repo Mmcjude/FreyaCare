@@ -1,0 +1,115 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    .dashboard-card {
+        border-radius: 14px;
+        transition: all 0.25s ease;
+        border: none;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .dashboard-icon {
+        font-size: 30px;
+        opacity: 0.9;
+    }
+
+    .dashboard-number {
+        font-size: 32px;
+        font-weight: 600;
+    }
+
+    .card-blue {
+        background: linear-gradient(135deg,#0078D4,#005A9E);
+        color: white;
+    }
+
+    .card-green {
+        background: linear-gradient(135deg,#28a745,#1e7e34);
+        color: white;
+    }
+
+    .card-orange {
+        background: linear-gradient(135deg,#ff8c00,#e55300);
+        color: white;
+    }
+
+    .action-btn {
+        border-radius: 10px;
+        padding: 12px 24px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 fw-bold">Admin Dashboard</h2>
+
+    <div class="row g-4">
+
+        <!-- Patients -->
+        <div class="col-md-4">
+            <div class="card dashboard-card card-blue p-4 shadow">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6>Patients</h6>
+                        <div class="dashboard-number">@ViewBag.PatientCount</div>
+                    </div>
+                    <div class="dashboard-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctors -->
+        <div class="col-md-4">
+            <div class="card dashboard-card card-green p-4 shadow">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6>Doctors</h6>
+                        <div class="dashboard-number">@ViewBag.DoctorCount</div>
+                    </div>
+                    <div class="dashboard-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments -->
+        <div class="col-md-4">
+            <div class="card dashboard-card card-orange p-4 shadow">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6>Appointments</h6>
+                        <div class="dashboard-number">@ViewBag.AppointmentCount</div>
+                    </div>
+                    <div class="dashboard-icon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-5 d-flex gap-3 flex-wrap">
+
+        <a asp-action="Users" class="btn btn-primary action-btn">
+            Manage Users
+        </a>
+
+        <a asp-action="Appointments" class="btn btn-outline-danger action-btn">
+            Manage Appointments
+        </a>
+
+    </div>
+
+</div>

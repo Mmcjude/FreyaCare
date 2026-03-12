@@ -1,0 +1,134 @@
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+    color: #1f2937;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Focus */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-brand img {
+    transition: transform 0.2s ease;
+}
+
+    .navbar-brand img:hover {
+        transform: scale(1.05);
+    }
+
+.nav-link {
+    font-weight: 500;
+    color: #374151 !important;
+}
+
+    .nav-link:hover {
+        color: #0d6efd !important;
+    }
+
+/* Buttons */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    min-height: 52px;
+    font-size: 1.08rem;
+    border-radius: 12px;
+}
+
+/* Cards */
+.card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* Hero / Sections */
+.hero-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.hero-card,
+.feature-item {
+    border: 1px solid #e5e7eb;
+}
+
+.hero-image {
+    max-height: 520px;
+    object-fit: cover;
+}
+
+.section-image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+}
+
+/* Steps */
+.step-number {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* Tables */
+table {
+    font-size: 1rem;
+}
+
+/* Alerts / badges */
+.alert,
+.badge {
+    border-radius: 10px;
+}
+
+/* Footer */
+.footer {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+/* Safe text highlight */
+.highlight-text {
+    color: #0d6efd;
+}

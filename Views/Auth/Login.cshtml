@@ -1,0 +1,39 @@
+﻿@model FreyaCare.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="mb-4 text-center">Login</h2>
+
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="PersonalCode" class="form-label"></label>
+                            <input asp-for="PersonalCode" class="form-control form-control-lg" />
+                            <span asp-validation-for="PersonalCode" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control form-control-lg" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">Login</button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <a asp-controller="Auth" asp-action="Register">Create a new account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
