@@ -4,3 +4,11 @@ obj/
 *.user
 *.suo
 FreyaCare.csproj.user
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Cypress cache
+Cypress/
