@@ -33,7 +33,8 @@ public class AppointmentController : Controller
 
         var model = new BookAppointmentViewModel
         {
-            Doctors = doctors
+            Doctors = doctors,
+            AppointmentDate = DateTime.Now
         };
 
         return View(model);
@@ -50,6 +51,29 @@ public class AppointmentController : Controller
                 Text = u.FullName
             })
             .ToListAsync();
+
+        if (model.AppointmentDate <= DateTime.Now)
+        {
+            ModelState.AddModelError(nameof(model.AppointmentDate), "You cannot book an appointment in the past.");
+        }
+
+        var doctorExists = await _context.Users
+            .AnyAsync(u => u.Id == model.DoctorId && u.Role == "Doctor");
+
+        if (!doctorExists)
+        {
+            ModelState.AddModelError(nameof(model.DoctorId), "Selected doctor does not exist.");
+        }
+
+        var alreadyBooked = await _context.Appointments.AnyAsync(a =>
+            a.DoctorId == model.DoctorId &&
+            a.AppointmentDate == model.AppointmentDate &&
+            a.Status != "Cancelled");
+
+        if (alreadyBooked)
+        {
+            ModelState.AddModelError(nameof(model.AppointmentDate), "This appointment time is already booked.");
+        }
 
         if (!ModelState.IsValid)
             return View(model);
@@ -78,6 +102,19 @@ public class AppointmentController : Controller
     {
         var patientId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
+        var oldAppointments = await _context.Appointments
+            .Where(a => a.PatientId == patientId
+                     && a.AppointmentDate < DateTime.Now
+                     && a.Status == "Pending")
+            .ToListAsync();
+
+        foreach (var appointment in oldAppointments)
+        {
+            appointment.Status = "Completed";
+        }
+
+        await _context.SaveChangesAsync();
+
         var appointments = await _context.Appointments
             .Include(a => a.Doctor)
             .Where(a => a.PatientId == patientId)
@@ -87,9 +124,33 @@ public class AppointmentController : Controller
         return View(appointments);
     }
 
-public async Task<IActionResult> ViewResult(int id)
+    [HttpPost]
+    public async Task<IActionResult> Cancel(int id)
     {
-        var patientId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+        var patientId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        var appointment = await _context.Appointments
+            .FirstOrDefaultAsync(a => a.Id == id && a.PatientId == patientId);
+
+        if (appointment == null)
+            return NotFound();
+
+        if (appointment.Status == "Completed")
+        {
+            TempData["Error"] = "Completed appointments cannot be cancelled.";
+            return RedirectToAction("MyAppointments");
+        }
+
+        appointment.Status = "Cancelled";
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("MyAppointments");
+    }
+
+    public async Task<IActionResult> ViewResult(int id)
+    {
+        var patientId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         var appointment = await _context.Appointments
             .Include(a => a.Doctor)

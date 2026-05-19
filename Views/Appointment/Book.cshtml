@@ -2,36 +2,130 @@
 
 @{
     ViewData["Title"] = "Book Consultation";
+    var today = DateTime.Now.ToString("yyyy-MM-dd");
+    var currentTime = DateTime.Now.ToString("HH:mm");
 }
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h2 class="mb-4">Book Consultation</h2>
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 fw-semibold">Book Consultation</h2>
 
-                    <form asp-action="Book" method="post">
+                    <form asp-action="Book" method="post" id="bookingForm">
                         <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                         <div class="mb-3">
-                            <label asp-for="DoctorId" class="form-label"></label>
-                            <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select form-select-lg">
+                            <label asp-for="DoctorId" class="form-label fw-medium"></label>
+
+                            <select asp-for="DoctorId"
+                                    asp-items="Model.Doctors"
+                                    class="form-select form-select-lg rounded-3">
                                 <option value="">Select Doctor</option>
                             </select>
+
                             <span asp-validation-for="DoctorId" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="AppointmentDate" class="form-label"></label>
-                            <input asp-for="AppointmentDate" class="form-control form-control-lg" />
+                        <div class="mb-4">
+                            <label asp-for="AppointmentDate" class="form-label fw-medium"></label>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="date"
+                                           id="appointmentDate"
+                                           class="form-control form-control-lg rounded-3"
+                                           min="@today"
+                                           required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="time"
+                                           id="appointmentTime"
+                                           class="form-control form-control-lg rounded-3"
+                                           required />
+                                </div>
+                            </div>
+
+                            <input asp-for="AppointmentDate"
+                                   type="hidden"
+                                   id="finalAppointmentDate" />
+
                             <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+
+                            <div id="dateTimeError" class="text-danger mt-2" style="display:none;">
+                                Please select a future date and time.
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-lg w-100">Book Consultation</button>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
+                            Book Consultation
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    const today = "@today";
+    const currentTime = "@currentTime";
+
+    const form = document.getElementById("bookingForm");
+    const dateInput = document.getElementById("appointmentDate");
+    const timeInput = document.getElementById("appointmentTime");
+    const finalInput = document.getElementById("finalAppointmentDate");
+    const errorBox = document.getElementById("dateTimeError");
+
+    function updateTimeMinimum() {
+        if (dateInput.value === today) {
+            timeInput.min = currentTime;
+
+            if (timeInput.value && timeInput.value < currentTime) {
+                timeInput.value = "";
+            }
+        } else {
+            timeInput.removeAttribute("min");
+        }
+    }
+
+    function updateDateTime() {
+        updateTimeMinimum();
+
+        if (dateInput.value && timeInput.value) {
+            finalInput.value = `${dateInput.value}T${timeInput.value}`;
+        } else {
+            finalInput.value = "";
+        }
+    }
+
+    function isFutureAppointment() {
+        if (!dateInput.value || !timeInput.value) {
+            return false;
+        }
+
+        const selectedDateTime = new Date(`${dateInput.value}T${timeInput.value}`);
+        const now = new Date();
+
+        return selectedDateTime > now;
+    }
+
+    dateInput.addEventListener("change", updateDateTime);
+    timeInput.addEventListener("change", updateDateTime);
+
+    form.addEventListener("submit", function (e) {
+        updateDateTime();
+
+        if (!isFutureAppointment()) {
+            e.preventDefault();
+            errorBox.style.display = "block";
+            finalInput.value = "";
+        } else {
+            errorBox.style.display = "none";
+        }
+    });
+
+    updateTimeMinimum();
+</script>

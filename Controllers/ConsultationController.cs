@@ -1,4 +1,5 @@
-﻿using FreyaCare.Data;
+﻿using System.Security.Claims;
+using FreyaCare.Data;
 using FreyaCare.Models;
 using FreyaCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -20,12 +21,17 @@ public class ConsultationController : Controller
     [HttpGet]
     public async Task<IActionResult> Create(int appointmentId)
     {
+        var doctorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
         var appointment = await _context.Appointments
             .Include(a => a.Patient)
-            .FirstOrDefaultAsync(a => a.Id == appointmentId);
+            .FirstOrDefaultAsync(a => a.Id == appointmentId && a.DoctorId == doctorId);
 
         if (appointment == null)
             return NotFound();
+
+        if (appointment.Status == "Cancelled")
+            return BadRequest("Cannot add consultation notes to a cancelled appointment.");
 
         var model = new ConsultationNoteViewModel
         {
@@ -41,6 +47,17 @@ public class ConsultationController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
+        var doctorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        var appointment = await _context.Appointments
+            .FirstOrDefaultAsync(a => a.Id == model.AppointmentId && a.DoctorId == doctorId);
+
+        if (appointment == null)
+            return NotFound();
+
+        if (appointment.Status == "Cancelled")
+            return BadRequest("Cannot add consultation notes to a cancelled appointment.");
+
         var note = new ConsultationNote
         {
             AppointmentId = model.AppointmentId,
@@ -51,6 +68,8 @@ public class ConsultationController : Controller
         };
 
         _context.ConsultationNotes.Add(note);
+        appointment.Status = "Completed";
+
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Dashboard", "Doctor");

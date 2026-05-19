@@ -1,0 +1,11 @@
+{
+  "name": "freyacare",
+  "version": "1.0.0",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^15.15.0"
+  }
+}

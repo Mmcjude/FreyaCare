@@ -1,0 +1,35 @@
+# FreyaCare Seeded User Accounts
+
+## Overview
+This document contains the default seeded accounts created for the FreyaCare system during database initialization.
+
+> ⚠️ IMPORTANT SECURITY NOTICE  
+> These passwords are intended for development/testing purposes only.  
+> Change all default passwords before deploying to production.
+
+---
+
+# Admin Account
+
+| Role | Full Name | Personal Code | Email | Phone Number | Default Password |
+|------|------------|---------------|--------|---------------|------------------|
+| Admin | System Admin | ADM001 | admin@freyacare.com | 28888888 | Admin123! |
+
+---
+
+# Doctor Accounts
+
+| Role | Full Name | Personal Code | Email | Phone Number | Default Password |
+|------|------------|---------------|--------|---------------|------------------|
+| Doctor | Dr. Anna Ozola | DOC001 | anna.ozola@freyacare.com | 29999999 | Doctor123! |
+| Doctor | Dr. Janis Berzins | DOC002 | janis.berzins@freyacare.com | 29999998 | Doctor123! |
+| Doctor | Dr. Elina Kalnina | DOC003 | elina.kalnina@freyacare.com | 29999997 | Doctor123! |
+
+---
+
+# Password Hashing
+
+Passwords are hashed using BCrypt:
+
+```csharp
+PasswordHash = BCrypt.Net.BCrypt.HashPassword("Doctor123!");

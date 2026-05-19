@@ -1,6 +1,95 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="py-5 fade-in-page">
+    <div class="container">
+        <div class="card shadow-sm border-0 p-4 p-md-5 privacy-card">
+            <div class="text-center mb-5">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill mb-3">
+                    FreyaCare Policy
+                </span>
+                <h1 class="fw-bold text-primary">Privacy Policy</h1>
+                <p class="text-muted lead mb-0">
+                    Your privacy matters to us. FreyaCare is committed to protecting your personal and medical-related information.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-shield-lock me-2 text-primary"></i>Information We Collect</h3>
+                <p>
+                    FreyaCare may collect personal information such as your full name, email address, phone number,
+                    personal code, account credentials, and appointment-related details when you register or use the platform.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-heart-pulse me-2 text-primary"></i>How We Use Your Information</h3>
+                <p>
+                    We use your information to manage user accounts, schedule appointments, support doctor-patient communication,
+                    improve the platform experience, and maintain security across the system.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-database-lock me-2 text-primary"></i>Data Protection</h3>
+                <p>
+                    FreyaCare uses authentication, password encryption, and secure access control to help protect your data.
+                    Only authorized users can access specific dashboards and information based on their role.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-person-check me-2 text-primary"></i>User Access and Roles</h3>
+                <p>
+                    Access to platform features is limited depending on whether the user is a patient, doctor, or administrator.
+                    This helps reduce unauthorized access to private records and appointment details.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-calendar-check me-2 text-primary"></i>Appointments and Medical Notes</h3>
+                <p>
+                    Appointment details and consultation notes are stored only for the purpose of providing healthcare-related
+                    services within the FreyaCare system. These records are intended to remain visible only to authorized users.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-share me-2 text-primary"></i>Sharing of Information</h3>
+                <p>
+                    FreyaCare does not sell personal information. Data may only be shared when necessary for system operation,
+                    legal obligations, or authorized healthcare-related processes.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-clock-history me-2 text-primary"></i>Data Retention</h3>
+                <p>
+                    We retain user and appointment information only as long as necessary for account functionality,
+                    recordkeeping, and platform operations, unless a longer retention period is required by law or policy.
+                </p>
+            </div>
+
+            <div class="privacy-section mb-4">
+                <h3><i class="bi bi-envelope-paper me-2 text-primary"></i>Contact Us</h3>
+                <p class="mb-0">
+                    If you have questions about this Privacy Policy or your data, please contact the FreyaCare support team.
+                </p>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="text-center">
+                <p class="text-muted mb-3">
+                    By using FreyaCare, you agree to this Privacy Policy and the secure handling of your information within the platform.
+                </p>
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="bi bi-house-door me-2"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

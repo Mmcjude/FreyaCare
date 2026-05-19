@@ -5,22 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreyaCare</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-    <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FreyaCare.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var dashboardController = "Home";
+        var dashboardAction = "Index";
+
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                dashboardController = "Admin";
+                dashboardAction = "Dashboard";
+            }
+            else if (User.IsInRole("Doctor"))
+            {
+                dashboardController = "Doctor";
+                dashboardAction = "Dashboard";
+            }
+            else if (User.IsInRole("Patient"))
+            {
+                dashboardController = "Patient";
+                dashboardAction = "Dashboard";
+            }
+        }
+    }
+
+    <div id="pageLoader">
+        <div class="loader-content">
+            <div class="spinner-ring"></div>
+            <h4 class="mt-3 fw-bold text-primary">FreyaCare</h4>
+            <p class="text-muted mb-0">Loading...</p>
+        </div>
+    </div>
+
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
             <div class="container">
@@ -33,34 +61,70 @@
                     FreyaCare
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="/#contact">
+                        <i class="bi bi-envelope me-1"></i> Contact
+                    </a>
+                </li>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav me-auto align-items-lg-center">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door me-1"></i> Home
+                            </a>
                         </li>
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="@dashboardController"
+                                   asp-action="@dashboardAction">
+                                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                                </a>
+                            </li>
+                        }
                     </ul>
 
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item me-3">
-                                <span class="nav-link fw-semibold">
+                                <span class="nav-link fw-semibold user-pill">
                                     <i class="bi bi-person-circle me-1"></i>
                                     Hello, @User.Identity.Name
                                 </span>
                             </li>
 
+                            @if (currentController != "Home")
+                            {
+                                <li class="nav-item me-2">
+                                    <a class="btn btn-outline-primary"
+                                       asp-controller="Home"
+                                       asp-action="Index">
+                                        <i class="bi bi-arrow-left-circle me-1"></i>
+                                        Back to Home
+                                    </a>
+                                </li>
+                            }
+
                             <li class="nav-item">
-                                <a class="btn btn-outline-danger"
-                                   asp-controller="Auth"
-                                   asp-action="Logout">
-                                    <i class="bi bi-box-arrow-right me-1"></i>
-                                    Logout
-                                </a>
+                                <form asp-controller="Auth"
+                                      asp-action="Logout"
+                                      method="post">
+
+                                    <button type="submit"
+                                            class="btn btn-link nav-link"
+                                            style="border:none; background:none;">
+                                        Logout
+                                    </button>
+
+                                </form>
                             </li>
                         }
                         else
@@ -89,23 +153,34 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container page-content fade-in-page">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted mt-4">
-        <div class="container py-3">
-            &copy; 2026 - FreyaCare -
-            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container py-3 d-flex justify-content-between flex-wrap">
+            <span>&copy; 2026 - FreyaCare</span>
+            <a asp-controller="Home" asp-action="Privacy" class="footer-link">Privacy</a>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        window.addEventListener("load", function () {
+            const loader = document.getElementById("pageLoader");
+            if (loader) {
+                loader.classList.add("hide-loader");
+                setTimeout(() => {
+                    loader.style.display = "none";
+                }, 500);
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

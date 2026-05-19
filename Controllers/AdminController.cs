@@ -18,12 +18,34 @@ public class AdminController : Controller
 
     public async Task<IActionResult> Dashboard()
     {
-        ViewBag.PatientCount = await _context.Users.CountAsync(u => u.Role == "Patient");
-        ViewBag.DoctorCount = await _context.Users.CountAsync(u => u.Role == "Doctor");
-        ViewBag.AppointmentCount = await _context.Appointments.CountAsync();
+        ViewBag.PatientCount = await _context.Users
+            .CountAsync(u => u.Role == "Patient");
 
-        return View();
+        ViewBag.DoctorCount = await _context.Users
+            .CountAsync(u => u.Role == "Doctor");
+
+        ViewBag.AppointmentCount = await _context.Appointments
+            .CountAsync();
+
+        ViewBag.TodayAppointments = await _context.Appointments
+            .CountAsync(a => a.AppointmentDate.Date == DateTime.Today);
+
+        ViewBag.PendingAppointments = await _context.Appointments
+            .CountAsync(a => a.Status == "Pending");
+
+        ViewBag.CompletedAppointments = await _context.Appointments
+            .CountAsync(a => a.Status == "Completed");
+
+        var recentAppointments = await _context.Appointments
+            .Include(a => a.Patient)
+            .Include(a => a.Doctor)
+            .OrderByDescending(a => a.AppointmentDate)
+            .Take(5)
+            .ToListAsync();
+
+        return View(recentAppointments);
     }
+    
 
     public async Task<IActionResult> Users()
     {
@@ -68,6 +90,7 @@ public class AdminController : Controller
         return RedirectToAction("Users");
     }
 
+
     [HttpGet]
     public async Task<IActionResult> DeleteUser(int id)
     {
@@ -75,6 +98,15 @@ public class AdminController : Controller
 
         if (user == null)
             return NotFound();
+
+        var hasAppointment = await _context.Appointments
+            .AnyAsync(a => a.PatientId == id || a.DoctorId == id);
+
+        if (hasAppointment)
+        {
+            TempData["ErrorMessage"] = $"{user.FullName} has an appointment and cannot be deleted.";
+            return RedirectToAction("Users");
+        }
 
         return View(user);
     }
@@ -87,22 +119,20 @@ public class AdminController : Controller
         if (user == null)
             return NotFound();
 
+        var hasAppointment = await _context.Appointments
+            .AnyAsync(a => a.PatientId == id || a.DoctorId == id);
+
+        if (hasAppointment)
+        {
+            TempData["ErrorMessage"] = $"{user.FullName} has an appointment and cannot be deleted.";
+            return RedirectToAction("Users");
+        }
+
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
 
+        TempData["SuccessMessage"] = $"{user.FullName} was deleted successfully.";
         return RedirectToAction("Users");
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Appointments()
-    {
-        var appointments = await _context.Appointments
-            .Include(a => a.Patient)
-            .Include(a => a.Doctor)
-            .OrderByDescending(a => a.AppointmentDate)
-            .ToListAsync();
-
-        return View(appointments);
     }
 
     [HttpGet]

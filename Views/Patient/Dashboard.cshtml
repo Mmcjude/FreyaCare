@@ -4,246 +4,522 @@
 
 <style>
     :root {
-        --fc-primary: #0078d4;
-        --fc-primary-dark: #005a9e;
-        --fc-bg: #f4f8fb;
-        --fc-text: #1f2937;
+        --fc-navy: #071f2f;
+        --fc-blue: #0078d4;
+        --fc-cyan: #66d9ff;
+        --fc-bg: #f6fbff;
+        --fc-text: #132733;
         --fc-muted: #6b7280;
-        --fc-danger: #dc3545;
+        --fc-border: #e5edf3;
     }
 
     body {
-        background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+        background: var(--fc-bg);
     }
 
-    .patient-dashboard {
-        padding: 3rem 0;
+    .dash-wrap {
+        min-height: 100vh;
+        display: flex;
+        background: radial-gradient(circle at top right, rgba(102,217,255,0.10), transparent 30%), #f6fbff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-    .dashboard-shell {
-        background: rgba(255,255,255,0.82);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.4);
-        border-radius: 28px;
-        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    .sidebar {
+        width: 240px;
+        min-height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        padding: 22px 16px;
+        background: linear-gradient(180deg, #071f2f, #0d344b);
+        color: white;
+        box-shadow: 12px 0 30px rgba(7,31,47,0.12);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .logo-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--fc-blue), var(--fc-cyan));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .logo-mark i {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+    .logo-text {
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .logo-sub {
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.65);
+        margin-top: 4px;
+    }
+
+    .nav-section {
+        margin-bottom: 22px;
+    }
+
+    .nav-label {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--fc-cyan);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        padding-left: 8px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 12px;
+        border-radius: 12px;
+        color: rgba(255,255,255,0.78);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        margin-bottom: 6px;
+    }
+
+        .nav-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: rgba(255,255,255,0.10);
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(102,217,255,0.18);
+            border: 1px solid rgba(102,217,255,0.25);
+            box-shadow: 0 0 20px rgba(102,217,255,0.08);
+        }
+
+    .main-content {
+        margin-left: 240px;
+        width: calc(100% - 240px);
+        padding: 32px;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-hidden .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-hidden .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .sidebar-toggle {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        border: 1px solid var(--fc-border);
+        background: white;
+        color: var(--fc-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: 0 10px 25px rgba(15,23,42,0.06);
+        transition: all 0.2s ease;
+    }
+
+        .sidebar-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 35px rgba(15,23,42,0.10);
+        }
+
+    .eyebrow {
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: var(--fc-blue);
+        margin-bottom: 8px;
+    }
+
+    .topbar-title {
+        font-size: 2rem;
+        line-height: 1.1;
+        font-weight: 800;
+        color: var(--fc-text);
+    }
+
+    .topbar-sub {
+        font-size: 0.95rem;
+        color: var(--fc-muted);
+        margin-top: 8px;
+    }
+
+    .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--fc-blue), var(--fc-cyan));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .welcome-card {
+        background: linear-gradient(135deg, #071f2f, #0d344b);
+        color: white;
+        border-radius: 24px;
+        padding: 28px;
+        margin-bottom: 28px;
+        box-shadow: 0 18px 45px rgba(7,31,47,0.16);
+        position: relative;
         overflow: hidden;
     }
 
-    .dashboard-hero {
-        background: linear-gradient(135deg, #0078d4 0%, #2563eb 100%);
-        color: white;
-        padding: 2.5rem;
+        .welcome-card::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            right: -90px;
+            top: -90px;
+            background: radial-gradient(circle, rgba(102,217,255,0.22), transparent 65%);
+        }
+
+    .welcome-content {
         position: relative;
+        z-index: 1;
+        max-width: 720px;
     }
 
-        .dashboard-hero::after {
-            content: "";
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 180px;
-            height: 180px;
-            background: rgba(255,255,255,0.12);
-            border-radius: 50%;
-        }
-
-        .dashboard-hero::before {
-            content: "";
-            position: absolute;
-            bottom: -50px;
-            left: -30px;
-            width: 140px;
-            height: 140px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 50%;
-        }
-
-    .hero-subtext {
-        color: rgba(255,255,255,0.88);
+    .welcome-card h2 {
+        font-size: 1.7rem;
+        font-weight: 800;
+        margin-bottom: 10px;
     }
 
-    .dashboard-body {
-        padding: 2rem;
+    .welcome-card p {
+        color: rgba(255,255,255,0.78);
+        font-size: 0.98rem;
+        margin-bottom: 18px;
+        line-height: 1.6;
     }
 
-    .quick-card {
+    .welcome-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-dash-primary,
+    .btn-dash-light {
+        border-radius: 999px;
+        padding: 0.75rem 1.2rem;
+        font-weight: 800;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-dash-primary {
+        background: linear-gradient(135deg, var(--fc-blue), var(--fc-cyan));
+        color: white;
         border: none;
-        border-radius: 22px;
-        padding: 1.5rem;
-        height: 100%;
-        background: linear-gradient(145deg, #ffffff, #f7fbff);
-        box-shadow: 0 12px 28px rgba(15,23,42,0.08);
-        transition: all 0.28s ease;
     }
 
-        .quick-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 36px rgba(15,23,42,0.12);
+        .btn-dash-primary:hover {
+            color: white;
+            transform: translateY(-2px);
         }
 
-    .quick-icon {
-        width: 58px;
-        height: 58px;
+    .btn-dash-light {
+        color: white;
+        border: 1px solid rgba(255,255,255,0.35);
+        background: rgba(255,255,255,0.08);
+    }
+
+        .btn-dash-light:hover {
+            color: white;
+            background: rgba(255,255,255,0.14);
+            transform: translateY(-2px);
+        }
+
+    .section-head {
+        margin-bottom: 18px;
+    }
+
+    .section-title {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: var(--fc-text);
+        margin-bottom: 5px;
+    }
+
+    .section-sub {
+        font-size: 0.95rem;
+        color: var(--fc-muted);
+    }
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        margin-bottom: 32px;
+    }
+
+    .action-card {
+        background: white;
+        border: 1px solid var(--fc-border);
+        border-radius: 22px;
+        padding: 22px;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 14px 35px rgba(15,23,42,0.06);
+        transition: all 0.2s ease;
+    }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(15,23,42,0.10);
+            text-decoration: none;
+            color: inherit;
+        }
+
+    .action-icon {
+        width: 50px;
+        height: 50px;
         border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
+        font-size: 1.25rem;
         color: white;
-        margin-bottom: 1rem;
-        box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+        background: linear-gradient(135deg, var(--fc-blue), var(--fc-cyan));
+        margin-bottom: 16px;
     }
 
-    .icon-blue {
-        background: linear-gradient(135deg, #0078d4, #005a9e);
-    }
-
-    .icon-light {
-        background: linear-gradient(135deg, #4f9cf9, #2563eb);
-    }
-
-    .icon-red {
-        background: linear-gradient(135deg, #dc3545, #b02a37);
-    }
-
-    .quick-title {
-        font-weight: 700;
+    .action-name {
+        font-size: 1.2rem;
+        font-weight: 800;
         color: var(--fc-text);
-        margin-bottom: .5rem;
+        margin-bottom: 8px;
     }
 
-    .quick-text {
+    .action-desc {
+        font-size: 0.95rem;
+        line-height: 1.6;
         color: var(--fc-muted);
-        margin-bottom: 1.25rem;
+        margin-bottom: 0;
     }
 
-    .btn-azure {
-        background: linear-gradient(135deg, var(--fc-primary), var(--fc-primary-dark));
-        border: none;
-        color: white;
-        border-radius: 14px;
-        padding: 0.85rem 1.4rem;
-        font-weight: 600;
-        box-shadow: 0 10px 22px rgba(0,120,212,0.22);
-        transition: all 0.25s ease;
-    }
-
-        .btn-azure:hover {
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(0,120,212,0.28);
-        }
-
-    .btn-azure-outline {
-        border: 2px solid rgba(0,120,212,0.2);
-        color: var(--fc-primary);
-        background: white;
-        border-radius: 14px;
-        padding: 0.85rem 1.4rem;
-        font-weight: 600;
-        transition: all 0.25s ease;
-    }
-
-        .btn-azure-outline:hover {
-            background: rgba(0,120,212,0.08);
-            color: var(--fc-primary-dark);
-            transform: translateY(-2px);
-        }
-
-    .btn-danger-soft {
-        border: 2px solid rgba(220,53,69,0.18);
-        color: var(--fc-danger);
-        background: white;
-        border-radius: 14px;
-        padding: 0.85rem 1.4rem;
-        font-weight: 600;
-        transition: all 0.25s ease;
-    }
-
-        .btn-danger-soft:hover {
-            background: rgba(220,53,69,0.08);
-            color: #b02a37;
-            transform: translateY(-2px);
-        }
-
-    .welcome-badge {
+    .action-link {
         display: inline-block;
-        background: rgba(255,255,255,0.15);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: white;
-        padding: 0.45rem 0.9rem;
-        border-radius: 999px;
-        font-weight: 500;
-        margin-bottom: 1rem;
+        margin-top: 12px;
+        font-size: 0.95rem;
+        color: var(--fc-blue);
+        font-weight: 800;
+    }
+
+    @@media (max-width: 991.98px) {
+        .dash-wrap {
+            display: block;
+        }
+
+        .sidebar {
+            position: relative;
+            width: 100%;
+            min-height: auto;
+            transform: none !important;
+        }
+
+        .sidebar-hidden .sidebar {
+            display: none;
+        }
+
+        .main-content,
+        .sidebar-hidden .main-content {
+            margin-left: 0;
+            width: 100%;
+            padding: 24px;
+        }
+
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .topbar {
+            align-items: flex-start;
+        }
     }
 </style>
 
-<div class="container patient-dashboard">
-    <div class="row">
-        <div class="col-xl-10 col-lg-11 mx-auto">
-            <div class="dashboard-shell">
+<div class="dash-wrap">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </div>
 
-                <div class="dashboard-hero">
-                    <span class="welcome-badge">Patient Portal</span>
-                    <h2 class="fw-bold mb-2">Welcome to FreyaCare</h2>
-                    <p class="lead hero-subtext mb-0">
-                        You are logged in successfully. Manage your consultations and appointments from one place.
-                    </p>
-                </div>
-
-                <div class="dashboard-body">
-                    <div class="row g-4">
-
-                        <div class="col-md-4">
-                            <div class="quick-card">
-                                <div class="quick-icon icon-blue">
-                                    📅
-                                </div>
-                                <h4 class="quick-title">Book Consultation</h4>
-                                <p class="quick-text">
-                                    Schedule an online consultation quickly and easily with your doctor.
-                                </p>
-                                <a asp-controller="Appointment" asp-action="Book" class="btn btn-azure w-100">
-                                    Book Now
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="quick-card">
-                                <div class="quick-icon icon-light">
-                                    🩺
-                                </div>
-                                <h4 class="quick-title">My Appointments</h4>
-                                <p class="quick-text">
-                                    View your appointment history, upcoming sessions, and consultation details.
-                                </p>
-                                <a asp-controller="Appointment" asp-action="MyAppointments" class="btn btn-azure-outline w-100">
-                                    View Appointments
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="quick-card">
-                                <div class="quick-icon icon-red">
-                                    🔒
-                                </div>
-                                <h4 class="quick-title">Logout</h4>
-                                <p class="quick-text">
-                                    Securely sign out from your patient account when you are finished.
-                                </p>
-                                <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger-soft w-100">
-                                    Logout
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+            <div>
+                <div class="logo-text">FreyaCare</div>
+                <div class="logo-sub">Patient panel</div>
             </div>
         </div>
-    </div>
+
+        <div class="nav-section">
+            <div class="nav-label">Overview</div>
+
+            <a class="nav-item active" asp-controller="Patient" asp-action="Dashboard">
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">Consultations</div>
+
+            <a class="nav-item" asp-controller="Appointment" asp-action="Book">
+                <i class="bi bi-calendar-plus"></i>
+                <span>Book consultation</span>
+            </a>
+
+            <a class="nav-item" asp-controller="Appointment" asp-action="MyAppointments">
+                <i class="bi bi-clipboard2-pulse"></i>
+                <span>My appointments</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button type="button" class="sidebar-toggle" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div>
+                    <span class="eyebrow">Patient overview</span>
+
+                    <div class="topbar-title">
+                        Patient dashboard
+                    </div>
+
+                    <div class="topbar-sub">
+                        Book consultations and manage your online healthcare visits.
+                    </div>
+                </div>
+            </div>
+
+            <div class="avatar">PT</div>
+        </div>
+
+        <div class="welcome-card">
+            <div class="welcome-content">
+                <h2>Welcome to FreyaCare</h2>
+
+                <p>
+                    From here, you can book an online consultation, join your appointment,
+                    and review consultation results shared by your doctor.
+                </p>
+
+                <div class="welcome-actions">
+                    <a asp-controller="Appointment" asp-action="Book" class="btn-dash-primary">
+                        Book consultation
+                    </a>
+
+                    <a asp-controller="Appointment" asp-action="MyAppointments" class="btn-dash-light">
+                        View my appointments
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-head">
+            <div class="section-title">Quick actions</div>
+            <div class="section-sub">
+                Choose what you would like to do next.
+            </div>
+        </div>
+
+        <div class="action-grid">
+            <a class="action-card" asp-controller="Appointment" asp-action="Book">
+                <div class="action-icon">
+                    <i class="bi bi-calendar-plus"></i>
+                </div>
+
+                <div class="action-name">Book consultation</div>
+
+                <p class="action-desc">
+                    Schedule an online consultation with a doctor quickly and easily.
+                </p>
+
+                <div class="action-link">Book now &rarr;</div>
+            </a>
+
+            <a class="action-card" asp-controller="Appointment" asp-action="MyAppointments">
+                <div class="action-icon">
+                    <i class="bi bi-clipboard2-pulse"></i>
+                </div>
+
+                <div class="action-name">My appointments</div>
+
+                <p class="action-desc">
+                    View upcoming visits, consultation history, meeting links, and results.
+                </p>
+
+                <div class="action-link">View appointments &rarr;</div>
+            </a>
+        </div>
+    </main>
 </div>
+
+<script>
+    const sidebarToggle = document.getElementById("sidebarToggle");
+
+    sidebarToggle.addEventListener("click", function () {
+        document.body.classList.toggle("sidebar-hidden");
+    });
+</script>
