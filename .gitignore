@@ -1,12 +1,19 @@
+# Visual Studio
 .vs/
-bin/
-obj/
 *.user
 *.suo
-FreyaCare.csproj.user
+*.userosscache
+*.sln.docstates
+
+# Build folders
+bin/
+obj/
 
 # Node
 node_modules/
+
+# Logs
+*.log
 
 # Cypress
 cypress/videos/
@@ -15,3 +22,7 @@ cypress/downloads/
 
 # Cypress cache
 Cypress/
+
+# OS files
+.DS_Store
+Thumbs.db
